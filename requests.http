@@ -1,0 +1,47 @@
+@base = http://127.0.0.1:3003
+@token = REPLACE_WITH_LOGIN_TOKEN
+@adminKey = REPLACE_WITH_YOUR_ENV_ADMIN_KEY
+
+### Register
+POST {{base}}/auth/register
+Content-Type: application/json
+
+{"email":"student@example.test","password":"Example-pass-123"}
+
+### Login, then copy the token into @token above
+POST {{base}}/auth/login
+Content-Type: application/json
+
+{"email":"student@example.test","password":"Example-pass-123"}
+
+### Publish a slot (change dates to future UTC dates)
+POST {{base}}/slots
+X-Admin-Key: {{adminKey}}
+Content-Type: application/json
+
+{"provider":"Tutor A","starts_at":"2030-05-20T09:00:00Z","ends_at":"2030-05-20T10:00:00Z"}
+
+### Available slots
+GET {{base}}/slots
+
+### Reserve slot (replace slot_id)
+POST {{base}}/bookings
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{"slot_id":1}
+
+### Cancel booking (replace 1 with the booking id)
+PATCH {{base}}/bookings/1/cancel
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{}
+
+### Logout
+POST {{base}}/auth/logout
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{}
+
